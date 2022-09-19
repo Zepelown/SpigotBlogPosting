@@ -1,0 +1,13 @@
+name: TestPlugin
+version: '${project.version}'
+main: io.github.zepelown.testplugin.TestPlugin
+api-version: 1.19
+commands:
+  thelp:
+    description: help command
+    aliases:
+      - thelp2
+  tgivedia:
+    description: givedia
+  topeninv:
+    description: open gui
