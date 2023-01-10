@@ -40,7 +40,7 @@ public class ItemManager {
         meta.setDisplayName(displayName);
         meta.setLore(Arrays.asList(lore));
         PotionEffect potionEffect = new PotionEffect(effect, duration, amplifier);
-        //마크는 시간을 ticks 이란 단위로 세기 때문에 20초를 원하면 200 * 20 을 해야함.
+        //마크는 시간을 ticks 이란 단위로 세기 때문에 수정 필요
         meta.addCustomEffect(potionEffect,false);
         stack.setItemMeta(meta);
         return stack;
@@ -53,6 +53,8 @@ public class ItemManager {
             Enchantment.DIG_SPEED, 1, false,"흙을 캐서 얻은 다이아다", ChatColor.LIGHT_PURPLE + "영웅");
 
     public static final ItemStack guiGrayGlassPane = buildItem(Material.GRAY_STAINED_GLASS_PANE, 1, ChatColor.GRAY + "빈칸","아이템 설명을 잘 읽어보세요");
+
+
     public static final ItemStack guiBuffItem = buildItem(Material.POTION,1,PotionEffectType.SPEED,200*20,2,ChatColor.LIGHT_PURPLE + "회복", "체력을 최대치로 회복시킵니다.");
 
 
