@@ -1,6 +1,7 @@
 package io.github.zepelown.testplugin;
 
 
+import io.github.zepelown.testplugin.commands.GetPotion;
 import io.github.zepelown.testplugin.commands.GiveDia;
 import io.github.zepelown.testplugin.commands.Help;
 import io.github.zepelown.testplugin.commands.OpenInv;
@@ -19,6 +20,7 @@ public final class TestPlugin extends JavaPlugin {
         getServer().getPluginCommand("thelp").setExecutor(new Help());
         getServer().getPluginCommand("tgivedia").setExecutor(new GiveDia());
         getServer().getPluginCommand("topeninv").setExecutor(new OpenInv());
+        getServer().getPluginCommand("tgetpotion").setExecutor(new GetPotion());
     }
 
     @Override

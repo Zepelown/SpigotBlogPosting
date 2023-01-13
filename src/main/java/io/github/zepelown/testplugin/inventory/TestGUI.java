@@ -13,8 +13,10 @@ public class TestGUI implements InventoryHolder {
 
     private void initItemSetting() {
         for(int i = 0; i < 9; i++){
-            if(i==4)
+            if(i==3)
                 inv.setItem(i,ItemManager.dia);
+            else if (i==4)
+                inv.setItem(i, ItemManager.healPotion);
             else
                 inv.setItem(i,ItemManager.guiGrayGlassPane);
         }

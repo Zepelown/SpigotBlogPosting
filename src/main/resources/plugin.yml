@@ -11,3 +11,5 @@ commands:
     description: givedia
   topeninv:
     description: open gui
+  tgetpotion:
+    description: get custom potion
