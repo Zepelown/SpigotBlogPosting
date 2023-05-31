@@ -4,18 +4,14 @@ import io.github.zepelown.testplugin.TestPlugin;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 public class ReloadConfig implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
-        TestPlugin plugin = TestPlugin.getPlugin();
         sender.sendMessage("config reload");
-        plugin.reloadConfig();
-        plugin.saveDefaultConfig();
-        plugin.getConfig().options().copyDefaults(true);
-        plugin.saveConfig();
+        TestPlugin.getConfigManager().reloadConfigs();
         sender.sendMessage("config reload complete");
         return false;
     }

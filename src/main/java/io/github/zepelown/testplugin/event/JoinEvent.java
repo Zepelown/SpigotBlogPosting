@@ -1,40 +1,47 @@
 package io.github.zepelown.testplugin.event;
 
-import io.github.zepelown.testplugin.ChatManager;
 import io.github.zepelown.testplugin.TestPlugin;
-import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 public class JoinEvent implements Listener {
 
+    FileConfiguration messageConfig = TestPlugin.getConfigManager().getConfig("message");
+    FileConfiguration playerConfig = TestPlugin.getConfigManager().getConfig("player");
+
     @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent e){
+    public void onPlayerJoin(PlayerJoinEvent e) {
+
         Player player = e.getPlayer();
-        TestPlugin plugin = TestPlugin.getPlugin();
+        String rank, job, prefix;
         String playerName = player.getName();
-        FileConfiguration config = plugin.getConfig();
-
-        ChatManager.sendConfigMessageToPlayer(player, "join-message.message");
-        /*
-        if(!config.contains("players."+playerName)) {
-            ChatManager.sendMessageToPlayer(player,"님! 서버에 첫 방문을 환영합니다!");
-            config.set("players."+playerName+".rank", "default");
-            config.set("players."+playerName+".job", "jobless");
-        } else{
-            ChatManager.sendConfigMessageToPlayer(player, "join-message.message");
+        //만약 월드 데이터에 플레이어 정보가 없다면
+        if(!player.hasPlayedBefore()){
+            rank = "newbie"; job = "jobless";
+            if(messageConfig.getBoolean("new-player-join-message.display-message"))
+                e.setJoinMessage(TestPlugin.getConfigManager().getConfigColorString("message","new-player-join-message.message")
+                    .replace("{playername}", playerName));
+            TestPlugin.getPlayerManager().addFirstPlayer(player);
+        } else {
+            rank = playerConfig.getString("players."+playerName+".rank");
+            job = playerConfig.getString("players."+playerName+".job");
+            //config 데이터가 손실됐을 경우
+            if(rank == null || job == null){
+                rank = "newbie";
+                job = "jobless";
+                player.sendMessage(TestPlugin.pluginPrefix +"등급과 직업이 존재하지 않아 기본값을 부여하였습니다");
+            }
+            if (messageConfig.getBoolean("join-message.display-message"))
+                e.setJoinMessage(TestPlugin.getConfigManager().getConfigColorString("message","join-message.message")
+                    .replace("{playername}", playerName));
+            TestPlugin.getPlayerManager().addPlayer(player,rank,job);
         }
-        LocalDateTime now = LocalDateTime.now();
-        String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH시 mm분 ss초"));
-        config.set("players."+playerName+".recent-join-date",formatedNow);
+        prefix = TestPlugin.getConfigManager().getConfig("rank").getString("ranks." + rank + ".prefix");
+        player.setPlayerListName(prefix + playerName);
 
-        plugin.saveConfig();*/
     }
 
 
